@@ -1,31 +1,10 @@
 {% extends "base.html" %}
-
 {% block content %}
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST">
         {{ form.hidden_tag() }}
-
-        {% for field in form if field.name != 'documents' %}
+        {% for field in form %}
             <p>{{ field.label }}<br>{{ field(size=32) }}</p>
         {% endfor %}
-
-        <p>
-            <label for="documents">Upload Documents (PDF, Image, Excel):</label><br>
-            <input type="file" name="documents" multiple>
-        </p>
-
         <p><input type="submit" value="Submit"></p>
     </form>
-
-    {% if documents %}
-        <h3>Uploaded Documents</h3>
-        <ul>
-        {% for doc in documents %}
-            <li>
-                <a href="{{ url_for('static', filename=doc.document_path) }}" target="_blank">
-                    {{ doc.document_name }}
-                </a>
-            </li>
-        {% endfor %}
-        </ul>
-    {% endif %}
 {% endblock %}
