@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+    <a href="{{ url_for('add_applicant') }}">Add Applicant</a>
+    <ul>
+    {% for applicant in applicants %}
+        <li>
+            <strong>{{ applicant.name }}</strong> (DOT: {{ applicant.dot }}, Address: {{ applicant.address }})
+            [<a href="{{ url_for('edit_applicant', applicant_id=applicant.id) }}">Edit</a>]
+            <ul>
+            {% for policy in applicant.policies %}
+                <li>
+                    {{ policy.policy_no }} - {{ policy.bussiness_lines }} ({{ policy.effective_date }} to {{ policy.expiration_date }})
+                    [<a href="{{ url_for('edit_policy', policy_id=policy.id) }}">Edit</a>]
+                </li>
+            {% endfor %}
+            </ul>
+            <a href="{{ url_for('add_policy', applicant_id=applicant.id) }}">Add Policy</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}
