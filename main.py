@@ -19,7 +19,9 @@ def index():
 def add_applicant():
     form = ApplicantForm()
     if form.validate_on_submit():
-        applicant = Applicant(**form.data)
+        data = form.data.copy()
+        data.pop('csrf_token', None)  # Remove CSRF token before passing to model
+        applicant = Applicant(**data)
         db.session.add(applicant)
         db.session.commit()
         return redirect(url_for("index"))
@@ -40,7 +42,9 @@ def add_policy(applicant_id):
     form = PolicyForm()
     form.applicants_id.data = applicant_id
     if form.validate_on_submit():
-        policy = Policy(**form.data)
+        data = form.data.copy()
+        data.pop('csrf_token', None)  # Remove CSRF token before passing to model
+        policy = Policy(**data)
         db.session.add(policy)
         db.session.commit()
         return redirect(url_for("index"))
